@@ -152,6 +152,166 @@ alias cn='make clean'
 alias fcn='make fclean'
 alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
 
+##### SIMPLE, CLEAN ALIASES #####
+
+# cd shortcuts
+alias dotdot='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias 1='cd -1'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
+
+# sudo shortcut
+alias a='alias'
+alias b='brew'
+alias c='code'
+alias d='docker'
+alias e='exit'
+alias f='find . -name'
+alias g='git'
+alias h='history'
+alias i='ifconfig'
+# line 120 j function
+alias k='k'
+alias l='ls -lah'
+alias m='make'
+alias n='nano'
+alias o='open'
+alias p='ping'
+alias q='q'
+alias r='rm'
+alias s='ssh'
+alias t='top'
+alias u='unzip'
+alias v='vim'
+alias w='wget'
+alias x='exit'
+alias y='yarn'
+alias z='zsh'
+
+# config / source shortcuts
+alias czsh='code ~/.zshrc'
+alias szsh='source ~/.zshrc'
+alias cbash='code ~/.bash_profile'
+alias sbash='source ~/.bash_profile'
+alias cgit='code ~/.gitconfig'
+alias sgit='git config --global --edit'
+
+# ls / mkdir / remove
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias lsa='ls -lah'
+alias ls='ls -G'
+alias md='mkdir -p'
+alias rd='rmdir'
+
+# Git shortcuts
+alias ga='git add'
+alias gaa='git add --all'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gco='git checkout'
+alias gcm='git checkout master'
+alias grb='git rebase'
+alias grv='git remote -v'
+alias gcmsg='git commit --message'
+alias gl='git pull'
+alias gp='git push'
+alias gst='git status'
+alias gss='git status --short'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gclone='git clone --recurse-submodules'
+alias gpl='git pull'
+alias gpo='git push origin'
+alias grh='git reset'
+alias grhh='git reset --hard'
+alias grs='git restore'
+alias grt='cd "$(git rev-parse --show-toplevel || echo .)"'
+
+# Better cat
+alias cat='bat'
+
+##### NEW FANCY SETTINGS (KEEP AT END) #####
+
+PROMPT="%F{cyan}%~ %# %f"
+
+# Rocket-style tiny cursor animation on new line
+precmd() {
+  printf '\e[?25l'          # hide cursor
+  printf '\e[36C\e[32m*\e[0m'
+  sleep 0.01
+  printf '\r\e[K\e[?25h'    # clear line + show cursor at start of prompt
+}
+
+
+# Make "-" behave like "cd -" in zsh
+dash_cd_back() {
+  cd -        # go to previous directory
+  zle reset-prompt
+}
+
+# Register and bind only if zle is available
+if (( ${+functions[zle]} )); then
+  zle -N dash_cd_back
+  bindkey '-' dash_cd_back
+fi
+
+
+# custom: clear screen
+alias cl='clear'
+
+
+# Quick j helper: menu or dispatch common commands starting with "j"
+j() {
+  if [[ $# -eq 0 ]]; then
+    cat <<'JMENU'
+Select a command:
+ 1) jobs    - list background jobs
+ 2) jq      - run jq with args
+ 3) js      - start node REPL
+ 4) jupyter - start jupyter lab (if installed)
+ 5) jump    - use autojump (if installed)
+ 6) edit    - open a file with $EDITOR (usage: j edit filename)
+ q) quit
+JMENU
+    printf "Choice: "
+    read -r choice rest
+    case "$choice" in
+      1) jobs -l ;;
+      2) command jq $rest ;;
+      3) node ;;
+      4) command jupyter lab $rest ;;
+      5) if command -v autojump >/dev/null 2>&1; then autojump $rest; else echo "autojump not installed"; fi ;;
+      6) ${EDITOR:-vi} "$rest" ;;
+      q) return 0 ;;
+      *) echo "Invalid choice"; return 1 ;;
+    esac
+  else
+    case "$1" in
+      jobs) shift; jobs -l ;;
+      jq) shift; command jq "$@" ;;
+      js) shift; node "$@" ;;
+      jupyter|jup) shift; command jupyter lab "$@" ;;
+      jump) shift; if command -v autojump >/dev/null 2>&1; then autojump "$@"; else echo "autojump not installed"; fi ;;
+      edit) shift; ${EDITOR:-vi} "$1" ;;
+      *) echo "Unknown subcommand: $1"; return 1 ;;
+    esac
+  fi
+}
+
+
+
 # ------------------------- Python Aliases --------------------------- 
 
 # -------------------------- Powerlevel10k config ------------------------
