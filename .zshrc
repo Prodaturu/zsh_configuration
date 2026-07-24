@@ -1,325 +1,537 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+
+alias mre='make re'
+alias mcl='make clean'
+alias mfcl='make fclean'
+alias mrc='make re && make clean'
+
+cmimalloc() { command git clone https://github.com/microsoft/mimalloc.git "$@"; }
+cdogs() { command git clone https://github.com/cxong/cdogs-sdl.git "$@"; }
+cflap() { command git clone https://github.com/sourabhv/FlapPyBird.git "$@"; }
+cwordcloud() { command git clone https://github.com/amueller/word_cloud.git "$@"; }
+
+# =========================
+# Environment
+# =========================
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+
+export PATH="$HOME/homebrew/bin:$HOME/.local/bin:$PATH"
+
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='code'
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# ------------------------- My Aliases ---------------------------
-
-alias francinette=/Users/sprodatu/francinette/tester.sh
-
-alias paco=/Users/sprodatu/francinette/tester.sh
-
-alias cclean='bash ~/Cleaner_42.sh'
-
-# ------------------------- NVM Config ---------------------------
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="$HOME/homebrew/bin:$PATH"
-
-# ------------------------- Dorker Custom Config ---------------------------
-
-alias dock="/source /Users/sprodatu/Dorker/init.sh"
-alias dick="docker run -it -v \"$(pwd)\":/app debian bash -c \"apt update && apt install valgrind make gcc clang -y && bash\""
-
-# ------------------------- My Laziness Config ---------------------------
-alias czsh='code ~/.zshrc'
-alias szsh='source ~/.zshrc'
-
-alias gs='git status'
-alias gr='git remote '
-alias gl='git log'
-alias gra='git remote add '
-alias grr='git remote remove '
-alias grre='git remote rename '
-alias grv='git remote -v'
-alias gc='git commit -m'
-alias ga='git add '
-alias gall='git add *'
-alias gp='git push '
-alias gpl='git pull '
-alias glf='git ls-files'
-
-alias e='exit'
-alias cl='clear'
-alias re='make re'
-alias all='make all'
-alias cn='make clean'
-alias fcn='make fclean'
-alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
-
-##### SIMPLE, CLEAN ALIASES #####
-
-# cd shortcuts
-alias dotdot='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
-alias 1='cd -1'
-alias 2='cd -2'
-alias 3='cd -3'
-alias 4='cd -4'
-alias 5='cd -5'
-alias 6='cd -6'
-alias 7='cd -7'
-alias 8='cd -8'
-alias 9='cd -9'
-
-# sudo shortcut
-alias a='alias'
-alias b='brew'
-alias c='code'
-alias d='docker'
-alias e='exit'
-alias f='find . -name'
-alias g='git'
-alias h='history'
-alias i='ifconfig'
-# line 120 j function
-alias k='k'
-alias l='ls -lah'
-alias m='make'
-alias n='nano'
-alias o='open'
-alias p='ping'
-alias q='q'
-alias r='rm'
-alias s='ssh'
-alias t='top'
-alias u='unzip'
-alias v='vim'
-alias w='wget'
-alias x='exit'
-alias y='yarn'
-alias z='zsh'
-
-# config / source shortcuts
-alias czsh='code ~/.zshrc'
-alias szsh='source ~/.zshrc'
-alias cbash='code ~/.bash_profile'
-alias sbash='source ~/.bash_profile'
-alias cgit='code ~/.gitconfig'
-alias sgit='git config --global --edit'
-
-# ls / mkdir / remove
-alias l='ls -lah'
-alias la='ls -lAh'
-alias ll='ls -lh'
-alias lsa='ls -lah'
-alias ls='ls -G'
-alias md='mkdir -p'
-alias rd='rmdir'
-
-# Git shortcuts
-alias ga='git add'
-alias gaa='git add --all'
-alias gb='git branch'
-alias gba='git branch -a'
-alias gco='git checkout'
-alias gcm='git checkout master'
-alias grb='git rebase'
-alias grv='git remote -v'
-alias gcmsg='git commit --message'
-alias gl='git pull'
-alias gp='git push'
-alias gst='git status'
-alias gss='git status --short'
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gclone='git clone --recurse-submodules'
-alias gpl='git pull'
-alias gpo='git push origin'
-alias grh='git reset'
-alias grhh='git reset --hard'
-alias grs='git restore'
-alias grt='cd "$(git rev-parse --show-toplevel || echo .)"'
-
-# Better cat
-alias cat='bat'
-
-##### NEW FANCY SETTINGS (KEEP AT END) #####
+command -v code >/dev/null || export EDITOR='nvim'
 
 PROMPT="%F{cyan}%~ %# %f"
 
-# Rocket-style tiny cursor animation on new line
-precmd() {
-  printf '\e[?25l'          # hide cursor
-  printf '\e[36C\e[32m*\e[0m'
-  sleep 0.01
-  printf '\r\e[K\e[?25h'    # clear line + show cursor at start of prompt
+# =========================
+# Core Helpers (Functions)
+# =========================
+
+# Clipboard helpers
+cpy() { pbcopy; }
+
+c() {
+  "$@" | tee >(pbcopy)
 }
 
+h() { git rev-parse HEAD; }
+hc() { git rev-parse HEAD | pbcopy; }
 
-# Make "-" behave like "cd -" in zsh
-dash_cd_back() {
-  cd -        # go to previous directory
-  zle reset-prompt
+# Grep helpers
+lgrep() { ls -lah | grep "$@"; }
+lsgrep() { ls | grep "$@"; }
+
+# Clone helpers
+furl() { git clone https://github.com/gruns/furl.git "$@"; }
+smallpond() { git clone https://github.com/deepseek-ai/smallpond.git "$@"; }
+webboost() { git clone https://github.com/Vishmehta001/WebBoost.git "$@"; }
+click() { git clone https://github.com/pallets/click.git "$@"; }
+mimalloc() { git clone https://github.com/microsoft/mimalloc.git "$@"; }
+mockpytest() { git clone https://github.com/pytest-dev/pytest-mock.git "$@"; }
+
+# Build helper
+buildfurl() {
+  mkdir build &&
+  cd build &&
+  cmake .. &&
+  make -j8 &&
+  sudo make install &&
+  cd ../..
 }
 
-# Register and bind only if zle is available
-if (( ${+functions[zle]} )); then
-  zle -N dash_cd_back
-  bindkey '-' dash_cd_back
-fi
+startmetro() { npx react-native start --reset-cache "$@"; }
 
 
-# custom: clear screen
-alias cl='clear'
+# Alignerr helpers
+_alignerr_repo_root() { git rev-parse --show-toplevel 2>/dev/null; }
+_alignerr_repo_name() { basename "$(_alignerr_repo_root)"; }
+_alignerr_repo_parent() { dirname "$(_alignerr_repo_root)"; }
 
+_alignerr_check_repo() {
+  _alignerr_repo_root >/dev/null || { echo "Not inside git repo"; return 1; }
+}
 
-# Quick j helper: menu or dispatch common commands starting with "j"
-j() {
-  if [[ $# -eq 0 ]]; then
-    cat <<'JMENU'
-Select a command:
- 1) jobs    - list background jobs
- 2) jq      - run jq with args
- 3) js      - start node REPL
- 4) jupyter - start jupyter lab (if installed)
- 5) jump    - use autojump (if installed)
- 6) edit    - open a file with $EDITOR (usage: j edit filename)
- q) quit
-JMENU
-    printf "Choice: "
-    read -r choice rest
-    case "$choice" in
-      1) jobs -l ;;
-      2) command jq $rest ;;
-      3) node ;;
-      4) command jupyter lab $rest ;;
-      5) if command -v autojump >/dev/null 2>&1; then autojump $rest; else echo "autojump not installed"; fi ;;
-      6) ${EDITOR:-vi} "$rest" ;;
-      q) return 0 ;;
-      *) echo "Invalid choice"; return 1 ;;
-    esac
+starttar() {
+  _alignerr_check_repo || return 1
+  local root parent repo tarpath
+  root="$(_alignerr_repo_root)"
+  parent="$(_alignerr_repo_parent)"
+  repo="$(_alignerr_repo_name)"
+  tarpath="$parent/${repo}-initial.tar"
+  (cd "$root" && git archive --format=tar --prefix="${repo}/" HEAD > "$tarpath")
+  ls -lh "$tarpath"
+}
+
+finaltar() {
+  _alignerr_check_repo || return 1
+  local parent repo tarpath
+  parent="$(_alignerr_repo_parent)"
+  repo="$(_alignerr_repo_name)"
+  tarpath="$parent/${repo}-final.tar"
+  tar \
+    --exclude-vcs \
+    --exclude='.git' \
+    --exclude='.DS_Store' \
+    --exclude='node_modules' \
+    --exclude='__pycache__' \
+    --exclude='*.pyc' \
+    --exclude='.venv' \
+    --exclude='venv' \
+    --exclude='.env' \
+    --exclude='.pytest_cache' \
+    --exclude='.mypy_cache' \
+    --exclude='.cache' \
+    --exclude='*.log' \
+    -cf "$tarpath" \
+    -C "$parent" "$repo"
+  ls -lh "$tarpath"
+}
+
+vstask() { _alignerr_check_repo || return 1; claude-hfi --vscode; }
+hfi() { _alignerr_check_repo || return 1; claude-hfi --vscode; }
+
+continuetask() { claude-hfi --continue; }
+
+# =========================
+# Shortcut Wrappers (Functions)
+# =========================
+
+gs() { command git status "$@"; }
+gst() { command git status "$@"; }
+ga() { command git add "$@"; }
+gaa() { command git add --all "$@"; }
+gb() { command git branch "$@"; }
+gbr() { command git branch -a "$@"; }
+gba() { command git branch -a "$@"; }
+gco() { command git checkout "$@"; }
+gcm() {
+  if (( $# == 0 )); then
+    command git commit
+  elif [[ "$1" == -* ]]; then
+    command git commit "$@"
   else
-    case "$1" in
-      jobs) shift; jobs -l ;;
-      jq) shift; command jq "$@" ;;
-      js) shift; node "$@" ;;
-      jupyter|jup) shift; command jupyter lab "$@" ;;
-      jump) shift; if command -v autojump >/dev/null 2>&1; then autojump "$@"; else echo "autojump not installed"; fi ;;
-      edit) shift; ${EDITOR:-vi} "$1" ;;
-      *) echo "Unknown subcommand: $1"; return 1 ;;
-    esac
+    command git commit -m "$*"
+  fi
+}
+gp() { command git push "$@"; }
+gl() { command git log "$@"; }
+gd() { command git diff "$@"; }
+gcl() { command git clone "$@"; }
+grhh() { command git reset --hard "$@"; }
+grv() { command git remote -v "$@"; }
+python3() { /usr/local/bin/python3 "$@"; }
+
+l() { command ls -lah "$@"; }
+ls() { command ls -G "$@"; }
+ll() { command ls -lh "$@"; }
+la() { command ls -lAh "$@"; }
+
+md() { command mkdir -p "$@"; }
+rd() { command rmdir "$@"; }
+
+v() { command vim "$@"; }
+n() { command nvim "$@"; }
+cl() { command clear "$@"; }
+e() { exit "$@"; }
+x() { exit "$@"; }
+
+cat() {
+  if command -v bat >/dev/null 2>&1; then
+    command bat "$@"
+  else
+    command cat "$@"
   fi
 }
 
+volup() { osascript -e 'set volume output volume ((output volume of (get volume settings)) + 10)'; }
+voldown() { osascript -e 'set volume output volume ((output volume of (get volume settings)) - 10)'; }
+volumemute() { osascript -e 'set volume output volume 0'; }
+
+czsh() { command code "$HOME/.zshrc"; }
+szsh() { source "$HOME/.zshrc"; }
+cbash() { command code "$HOME/.bash_profile"; }
+sbash() { source "$HOME/.bash_profile"; }
+cgit() { command code "$HOME/.gitconfig"; }
+gitc() { command code "$HOME/.gitconfig"; }
+sgit() { command git config --global --edit; }
+
+nrd() { npm run dev; }
+
+# alignerr
+sub () {
+  echo "Yo bro WAZZUP?"
+  echo ""
+  echo "Task number Bruder? (Enter if u dont give a 🖕): "
+  read -r TASKNUM
+  echo "give UUID 🜺🕳️   : "
+  read -r UUID
+  echo ""
+  echo "Repo path (Enter <-> current directory): "
+  read -r REPO
+  echo ""
+  if [ -z "$REPO" ]; then REPO="$(pwd)"; fi
+  echo "Starting commit hash (stupid to not commit in between turns huh? => Enter ): "
+  read -r START
+  echo ""
+
+  # Cause u stupid enough enjoy free HEAD
+  if [ -z "$START" ]; then
+    echo "Hi stupid 💩, taking care of HEAD, so chill out 🧘‍♂️"
+    START="$(cd "$REPO" && git rev-parse HEAD)"
+    echo "Using HEAD commit: $START"
+  fi
+
+  # Decide diff filename
+  if [ -z "$TASKNUM" ]; then
+    DIFFNAME="final.diff"
+  else
+    DIFFNAME="task${TASKNUM}_final.diff"
+  fi
 
 
-# ------------------------- Python Aliases --------------------------- 
+  SESSION_DIR=""
+  echo ""
+  echo "🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙"
+  echo ""
+  if [ -d "/tmp/claude-hfi/$UUID" ]; then
+    SESSION_DIR="/tmp/claude-hfi/$UUID"
+  else
+    SESSION_DIR="$(find /var/folders -maxdepth 8 -type d -path "*/claude-hfi/*" -name "$UUID" 2>/dev/null | head -n 1)"
+  fi
 
-# -------------------------- Powerlevel10k config ------------------------
+  if [ -z "$SESSION_DIR" ] || [ ! -d "$SESSION_DIR" ]; then
+    echo "YO BRO? NO seesion! maybe NO MONEY!! 😔"
+    return 1
+  fi
 
-# Load Homebrew config script
-source $HOME/.brewconfig.zsh
+  echo "Session dir: $SESSION_DIR"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-source ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme
+  # Yo! this is for 'auto tar Archive'
+  rm -rf ~/"$UUID" 2>/dev/null
+  cp -R "$SESSION_DIR" ~/
+  (cd ~ && tar -cf "$UUID.tar" "$UUID") || return 1
+  rm -rf ~/"$UUID" 2>/dev/null
 
+  # Yo! this is for 'auto diff'
+  if [ ! -d "$REPO/.git" ]; then
+    echo "stupid 💩! this is Not a git repo: $REPO"
+    return 1
+  fi
+
+  echo ""
+  echo ""
+  echo " By the way "
+  echo " Heres a pita pyramid for no reason whatsoever"
+  echo ""
+  echo ""
+  echo "                    🥙   "
+  echo "                  🥙 🥙  "
+  echo "               🥙 🥙 🥙 🥙 "
+  echo "            🥙 🥙 🥙 🥙 🥙 🥙 "
+  echo "         🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 "
+  echo "      🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 "
+  echo "   🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙"
+  echo "🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙"
+
+  echo ""
+  echo ""
+  echo " Thats a good pita 🫓 pyramid, if u dont think so 🖕 🫵 🏖️"
+  echo ""
+  echo " Hmmmmmmmmm! "
+
+
+  (cd "$REPO" && git add -A && git diff "$START" > ~/"$DIFFNAME") || return 1
+
+  DOWNLOADS="$HOME/Downloads"
+
+  # Mandatory move to Downloads
+  mv ~/"$UUID.tar" "$DOWNLOADS/"
+  mv ~/"$DIFFNAME" "$DOWNLOADS/"
+  echo ""
+  echo "Mandatory move to Downloads ✌️"
+  ls -lh "$DOWNLOADS/$UUID.tar" "$DOWNLOADS/$DIFFNAME"
+
+  echo ""
+  echo "Done my G, upload for 300💰"
+
+  echo ""
+  echo " Then go buy some 👇"
+  echo "🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙 🥙"
+}
+
+tmuxlog() {
+  [[ -z "$1" ]] && { echo "usage: tattach SESSION" >&2; return 2; }
+
+  local session="$1"
+  local folder
+  local logdir
+  local logfile
+
+  tmux has-session -t "$session" 2>/dev/null || {
+    echo "tmux session not found: $session" >&2
+    return 1
+  }
+
+  read "folder?Folder name: "
+  [[ -z "$folder" ]] && { echo "folder name cannot be empty" >&2; return 2; }
+
+  logdir="$HOME/Downloads/cot/$folder"
+  logfile="$logdir/tmux-${session//[^A-Za-z0-9_.-]/_}.log"
+
+  mkdir -p -- "$logdir" || return 1
+  tmux capture-pane -p -S - -t "$session" >| "$logfile"
+  tmux pipe-pane -o -t "$session" "cat >> ${(q)logfile}"
+  tmux attach -t "$session"
+}
+
+tmuxattach() {
+  emulate -L zsh
+
+  if (( $# < 1 )); then
+    echo "usage: tattach SESSION" >&2
+    return 2
+  fi
+
+  local session="$1"
+  local foldername logfile logdir safe_session
+
+  if ! tmux has-session -t "$session" 2>/dev/null; then
+    echo "tmux session not found: $session" >&2
+    return 1
+  fi
+
+  printf "Folder name: "
+  IFS= read -r foldername || return 1
+
+  foldername="${foldername//[[:space:]]/}"
+  if [[ -z "$foldername" ]]; then
+    echo "folder name cannot be empty" >&2
+    return 2
+  fi
+
+  safe_session="${session//[^A-Za-z0-9_.-]/_}"
+  logdir="$HOME/Downloads/cot/$foldername"
+  logfile="$logdir/tmux-$safe_session.log"
+
+  mkdir -p -- "$logdir" || return 1
+
+  tmux capture-pane -p -S - -t "$session" >| "$logfile"
+  tmux pipe-pane -o -t "$session" "cat >> ${(q)logfile}"
+
+  echo "Logging tmux session '$session' to: $logfile" >&2
+  tmux attach -t "$session"
+}
+
+_tattach_write_markdown() {
+  emulate -L zsh
+
+  local raw_file="$1"
+  local md_file="$2"
+
+  [[ -n "$raw_file" && -n "$md_file" && -f "$raw_file" ]] || return 1
+
+  mkdir -p -- "${md_file:h}" || return 1
+
+  {
+    print -r -- '````text'
+    command cat -- "$raw_file"
+    if [[ -s "$raw_file" ]] && [[ "$(command tail -c 1 -- "$raw_file" 2>/dev/null)" != $'\n' ]]; then
+      print
+    fi
+    print -r -- '````'
+  } >| "$md_file"
+}
+
+_tattach_finalize_pane() {
+  emulate -L zsh
+
+  local pane="$1"
+  local raw_file
+  local md_file
+
+  [[ -n "$pane" ]] || return 1
+
+  tmux pipe-pane -t "$pane"
+
+  raw_file="$(tmux show-option -p -v -t "$pane" @tattach_raw_file 2>/dev/null)"
+  md_file="$(tmux show-option -p -v -t "$pane" @tattach_md_file 2>/dev/null)"
+
+  if [[ -n "$raw_file" && -n "$md_file" && -f "$raw_file" ]]; then
+    _tattach_write_markdown "$raw_file" "$md_file" || return 1
+    echo "Markdown transcript: $md_file" >&2
+  fi
+
+  tmux set-option -p -u -t "$pane" @tattach_raw_file >/dev/null 2>&1 || true
+  tmux set-option -p -u -t "$pane" @tattach_md_file >/dev/null 2>&1 || true
+}
+
+tattach() {
+  # Emulate default zsh behaviour
+  emulate -L zsh
+
+  if (( $# < 1 )); then
+    echo "usage: tattach SESSION [log-file]" >&2
+    return 2
+  fi
+
+  local session="$1"
+  local safe_session="${session//[^A-Za-z0-9_.-]/_}"
+  local task_input task_num lane log_dir raw_file md_file pane_target attach_status
+
+  if [[ "$session" =~ -([AB])$ ]]; then
+    lane="${match[1]}"
+  else
+    case "${PWD:t}" in
+      A|B)
+        lane="${PWD:t}"
+        ;;
+      *)
+        case "${PWD:h:t}" in
+          A|B)
+            lane="${PWD:h:t}"
+            ;;
+        esac
+        ;;
+    esac
+  fi
+
+  if ! tmux has-session -t "$session" 2>/dev/null; then
+    echo "tmux session not found: $session" >&2
+    return 1
+  fi
+
+  if [[ -n "$2" ]]; then
+    case "$2" in
+      *.md)
+        md_file="$2"
+        raw_file="${2%.md}.txt"
+        ;;
+      *)
+        raw_file="$2"
+        md_file="${2%.*}.md"
+        [[ "$md_file" == "$2" ]] && md_file="$2.md"
+        ;;
+    esac
+  else
+    if [[ ! -r /dev/tty ]]; then
+      echo "task number is required when no log-file is provided" >&2
+      return 2
+    fi
+
+    printf "Task number: " > /dev/tty
+    IFS= read -r task_input < /dev/tty || return 1
+    task_input="${task_input//[[:space:]]/}"
+
+    if [[ "$task_input" =~ ^task([0-9]+)$ ]]; then
+      task_num="task${match[1]}"
+    elif [[ "$task_input" =~ ^([0-9]+)$ ]]; then
+      task_num="task${match[1]}"
+    else
+      echo "task number must look like 1 or task1" >&2
+      return 2
+    fi
+
+    log_dir="/Users/Shared/Alignerr/COT/$task_num/${lane:-misc}"
+    raw_file="$log_dir/tmux-$safe_session.txt"
+    md_file="$log_dir/tmux-$safe_session.md"
+  fi
+
+  mkdir -p -- "${raw_file:h}"
+
+  pane_target="$(tmux display-message -p -t "$session" '#{pane_id}')"
+  tmux capture-pane -J -p -S - -t "$pane_target" >| "$raw_file"
+  tmux set-option -p -t "$pane_target" @tattach_raw_file "$raw_file" >/dev/null
+  tmux set-option -p -t "$pane_target" @tattach_md_file "$md_file" >/dev/null
+  tmux pipe-pane -t "$pane_target" "cat >> ${(q)raw_file}"
+
+  echo "Logging tmux session '$session' to: $raw_file" >&2
+  echo "Markdown transcript on detach: $md_file" >&2
+
+  tmux attach -t "$session"
+  attach_status=$?
+
+  _tattach_finalize_pane "$pane_target"
+
+  return $attach_status
+}
+
+tdetach() {
+  emulate -L zsh
+
+  if [[ -z "$TMUX" ]]; then
+    echo "tdetach must be run from inside tmux" >&2
+    return 1
+  fi
+
+  _tattach_finalize_pane "$TMUX_PANE"
+  tmux detach-client
+}
+
+tdetach_session() {
+  emulate -L zsh
+
+  if (( $# < 1 )); then
+    echo "usage: tdetach_session SESSION" >&2
+    return 2
+  fi
+
+  local session="$1"
+
+  tmux list-panes -t "$session" -F '#{pane_id}' |
+    while read -r pane; do
+      _tattach_finalize_pane "$pane"
+    done
+
+  tmux detach-client -s "$session"
+}
+
+# Make local user launchers available without duplicating PATH entries.
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
+t() {
+
+  if (( $# )); then
+    open -na /Applications/iTerm.app --args "$@"
+  else
+    open -na /Applications/iTerm.app
+  fi
+}
+
+if [[ -n "${ENABLE_ITERM_SHELL_INTEGRATION:-}" ]] && [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]]; then
+  source "${HOME}/.iterm2_shell_integration.zsh"
+fi
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/home/.local/bin:$PATH"
